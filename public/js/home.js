@@ -8,7 +8,7 @@
     postDialogContent.html('');
     $.get('/view/' + postId).done(function(response) {
       if (response.success) {
-        let escapedContent = $("<div/>").text(response.data.content).html();
+        let escapedContent = $.parseHTML(response.data.content);
 
         postDialogContent.html(escapedContent);
         $('#post-dialog').dialog({

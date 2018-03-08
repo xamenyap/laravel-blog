@@ -32,6 +32,7 @@
                                     <a href="#" class="js-view-post" data-id="{{$post->id}}">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
                                     Posted by: {{$post->user->name}}
                                 </div>
+                                <br/>
                             </div>
                             <br/>
                         @endforeach
