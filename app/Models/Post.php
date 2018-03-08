@@ -5,6 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string status
+ */
 class Post extends Model
 {
     const STATUS_PENDING = 'pending';
@@ -19,6 +22,12 @@ class Post extends Model
 
     public function publish()
     {
-        return $this->save(['status' => static::STATUS_PUBLISHED]);
+        $this->status = static::STATUS_PUBLISHED;
+        return $this->save();
+    }
+
+    public function isPending()
+    {
+        return $this->status == static::STATUS_PENDING;
     }
 }
