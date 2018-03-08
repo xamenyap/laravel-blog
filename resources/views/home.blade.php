@@ -29,12 +29,8 @@
                         @foreach ($posts as $post)
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="#">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
+                                    <a href="#" class="js-view-post" data-id="{{$post->id}}">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
                                     Posted by: {{$post->user->name}}
-                                </div>
-                                <br/>
-                                <div class="col-md-12">
-                                    {{str_limit($post->content, 50)}}
                                 </div>
                             </div>
                             <br/>
@@ -46,4 +42,12 @@
             </div>
         </div>
     </div>
+
+    <div id="post-dialog" style="display: none;">
+        <div id="post-dialog-content"></div>
+    </div>
+@endsection
+
+@section('additional scripts')
+    <script src="{{ asset('js/home.js') }}"></script>
 @endsection

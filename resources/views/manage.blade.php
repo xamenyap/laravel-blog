@@ -14,10 +14,6 @@
                                     <a href="#">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
                                     Posted by: {{$post->user->name}}
                                 </div>
-                                <br/>
-                                <div class="col-md-12">
-                                    {{str_limit($post->content, 50)}}
-                                </div>
                                 @if ($post->isPending())
                                     <br/>
                                     <div class="col-md-12">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SavePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use function Symfony\Component\VarDumper\Dumper\esc;
 
 class HomeController extends Controller
 {
@@ -17,6 +18,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth')->only(['create', 'save', 'manage', 'publish']);
         $this->middleware('auth.admin')->only(['manage', 'publish']);
+//        $this->middleware('post.view')->only(['view']);
     }
 
     public function index()
@@ -47,6 +49,25 @@ class HomeController extends Controller
 
         \Session::flash('save_success', 1);
         return view('create');
+    }
+
+    public function view($id)
+    {
+        $post = $post = Post::findOrFail($id);
+
+        if ($post) {
+            return response()->json([
+                'success' => 1,
+                'data' => [
+                    'title' => $post->title,
+                    'content' => $post->content,
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'success' => 0,
+        ]);
     }
 
     public function manage()

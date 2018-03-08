@@ -17,7 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/create', 'HomeController@create')->name('create');
 Route::post('/save', 'HomeController@save')->name('save');
-Route::get('/view/:id', 'HomeController@view')->name('view');
+Route::get('/view/{id}', 'HomeController@view')->name('view');
 
 Route::get('/manage', 'HomeController@manage')->name('manage');
 Route::post('/publish', 'HomeController@publish')->name('publish');
