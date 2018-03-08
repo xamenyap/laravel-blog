@@ -26,27 +26,14 @@
                             <br/>
                         @endif
 
-                        @foreach ($posts as $post)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <a href="#" class="js-view-post" data-id="{{$post->id}}">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
-                                    Posted by: {{$post->user->name}}
-                                </div>
-                                <br/>
-                            </div>
-                            <br/>
-                        @endforeach
-
-                        {{$posts->render()}}
+                        @include('partials.post_list')
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="post-dialog" style="display: none;">
-        <div id="post-dialog-content"></div>
-    </div>
+    @include('partials.post_dialog')
 @endsection
 
 @section('additional scripts')
