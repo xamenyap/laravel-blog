@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SavePostRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,16 +15,65 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['create', 'save', 'manage', 'publish']);
+        $this->middleware('auth.admin')->only(['manage', 'publish']);
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('home');
+        $posts = Post::with('user')
+            ->where('status', '=', Post::STATUS_PUBLISHED)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('home', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function create()
+    {
+        return view('create');
+    }
+
+    public function save(SavePostRequest $request)
+    {
+        Post::create([
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'status' => \Auth::user()->isAdmin() ? Post::STATUS_PUBLISHED : Post::STATUS_PENDING,
+            'user_id' => \Auth::user()->id,
+        ]);
+
+        \Session::flash('save_success', 1);
+        return view('create');
+    }
+
+    public function manage()
+    {
+        $posts = Post::with('user')
+            ->where('status', '=', Post::STATUS_PENDING)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('manage', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function publish(Request $request)
+    {
+        $postId = $request->get('id');
+        $post = Post::findOrFail($postId);
+
+        if ($post && $post->publish()) {
+            return response()->json([
+                'success' => 1
+            ]);
+        }
+
+        return response()->json([
+            'success' => 0
+        ]);
     }
 }
