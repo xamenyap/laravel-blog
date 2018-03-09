@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SavePostRequest;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,7 +18,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth')->only(['create', 'save', 'manage', 'publish']);
         $this->middleware('auth.admin')->only(['manage', 'publish']);
-//        $this->middleware('post.view')->only(['view']);
     }
 
     public function index()
@@ -57,6 +57,15 @@ class HomeController extends Controller
     public function view($id)
     {
         $post = $post = Post::findOrFail($id);
+
+        if ($post->isPending()) {
+            $loggedInUser = \Auth::user();
+            if (!$loggedInUser instanceof User || !$loggedInUser->isAdmin()) {
+                return response()->json([
+                    'success' => 0,
+                ]);
+            }
+        }
 
         if ($post) {
             return response()->json([
