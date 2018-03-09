@@ -29,6 +29,10 @@ composer install
 ```
 - Create `.env` (using `.env.example`), then update the required credential for your database
 - Run migrations and seeders to populate the app with some dummy data
+```
+php artisan migrate
+php artisan db:seed
+```
 - There are 2 user accounts made specifically for testing. One has admin role (login with `admin@demo.com/123456`), and the other just member role (login with `demo@demo.com/123456`).  
 - For simple testing purpose, run a php built-in server
 ```
