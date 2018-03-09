@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SavePostRequest;
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -73,6 +74,9 @@ class HomeController extends Controller
                 'data' => [
                     'title' => $post->title,
                     'content' => $post->parsed_content,
+                    'author' => $post->user->name,
+                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('Y-m-d H:i'),
+                    'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at)->format('Y-m-d H:i'),
                 ]
             ]);
         }

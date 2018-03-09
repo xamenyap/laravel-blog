@@ -1,7 +1,7 @@
 @foreach ($posts as $post)
     <div class="row">
         <div class="col-md-12">
-            <a href="#" class="js-view-post" data-id="{{$post->id}}">{{$post->title}} (Posted on {{$post->created_at}})</a><br/>
+            <a href="#" class="js-view-post" data-id="{{$post->id}}">{{$post->title}} (Posted on {{$post->created_at->format('Y-m-d H:i')}})</a><br/>
             Posted by: {{$post->user->name}}
         </div>
         @if ($post->isPending())
