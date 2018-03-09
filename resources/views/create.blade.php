@@ -16,16 +16,26 @@
                     <div class="row">
                         <form class="form-horizontal" method="POST" action="{{route('save')}}">
                             {{csrf_field()}}
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="email">Title:</label>
+                            <div class="form-group {{$errors->has('title') ? 'has-error' : ''}}">
+                                <label class="control-label col-sm-2" for="title">Title:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="title" placeholder="Enter post title" name="title">
+                                    <input type="text" class="form-control" id="title" placeholder="Enter post title" name="title" value="{{old('title')}}">
+                                    @if ($errors->has('title'))
+                                        <span class="help-block">
+                                            <strong>{{$errors->first('title')}}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Content:</label>
+                            <div class="form-group {{$errors->has('content') ? 'has-error' : ''}}">
+                                <label class="control-label col-sm-2" for="content">Content:</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="content" placeholder="Enter post content" name="content" rows="10"></textarea>
+                                    <textarea class="form-control" id="content" placeholder="Enter post content" name="content" rows="10">{{old('content')}}</textarea>
+                                    @if ($errors->has('content'))
+                                        <span class="help-block">
+                                            <strong>{{$errors->first('content')}}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group">
