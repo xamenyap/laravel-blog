@@ -39,9 +39,13 @@ class HomeController extends Controller
 
     public function save(SavePostRequest $request)
     {
+        $originalContent = $request->get('content');
+        $parsedown = new \Parsedown();
+
         Post::create([
             'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'content' => $originalContent,
+            'parsed_content' => $parsedown->text($originalContent),
             'status' => \Auth::user()->isAdmin() ? Post::STATUS_PUBLISHED : Post::STATUS_PENDING,
             'user_id' => \Auth::user()->id,
         ]);
@@ -59,7 +63,7 @@ class HomeController extends Controller
                 'success' => 1,
                 'data' => [
                     'title' => $post->title,
-                    'content' => $post->content,
+                    'content' => $post->parsed_content,
                 ]
             ]);
         }

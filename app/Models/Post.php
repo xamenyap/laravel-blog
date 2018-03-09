@@ -13,7 +13,7 @@ class Post extends Model
     const STATUS_PENDING = 'pending';
     const STATUS_PUBLISHED = 'published';
 
-    protected $fillable = ['title', 'content', 'user_id', 'status'];
+    protected $fillable = ['title', 'content', 'parsed_content', 'user_id', 'status'];
 
     public function user()
     {

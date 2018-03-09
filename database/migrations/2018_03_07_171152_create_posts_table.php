@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->string('title', 255)->unique();
             $table->text('content');
+            $table->longText('parsed_content');
             $table->integer('user_id');
             $table->enum('status', ['pending', 'published']);
             $table->timestamps();
